@@ -7,24 +7,19 @@ import LoginForm from '@/components/auth/LoginForm';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const session = getSession();
     if (session) {
-      // If already logged in, redirect to dashboard
       router.replace('/dashboard');
       return;
     }
-    setIsLoading(false);
+    setIsReady(true);
   }, [router]);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-blue-50">
-        <div className="text-gray-600">Loading...</div>
-      </div>
-    );
+  if (!isReady) {
+    return null;
   }
 
   return <LoginForm />;

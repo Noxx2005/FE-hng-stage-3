@@ -7,21 +7,17 @@ import { getSession } from '@/lib/auth';
 
 export default function Home() {
   const router = useRouter();
-  const [checked, setChecked] = useState(false);
+  const [showContent, setShowContent] = useState(true);
 
   useEffect(() => {
-    if (checked) return;
-    
     const timer = setTimeout(() => {
       const session = getSession();
       const destination = session ? '/dashboard' : '/login';
-      // Use replace to avoid adding splash to history
       router.replace(destination);
-      setChecked(true);
-    }, 1000);
+    }, 2500);
 
     return () => clearTimeout(timer);
-  }, [router, checked]);
+  }, [router]);
 
   return <SplashScreen />;
 }
