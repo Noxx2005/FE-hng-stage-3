@@ -21,7 +21,7 @@ A progressive web app for tracking daily habits with offline support, built with
 2. Install dependencies:
 
 ```bash
-pnpm install
+npm install
 ```
 
 ### Running the App
@@ -29,7 +29,7 @@ pnpm install
 Start the development server:
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
@@ -37,8 +37,8 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 Build for production:
 
 ```bash
-pnpm build
-pnpm start
+npm run build
+npm start
 ```
 
 ## Project Structure
@@ -124,7 +124,7 @@ pnpm start
 ### Unit Tests with Coverage
 
 ```bash
-pnpm test:unit
+npm run test:unit
 ```
 
 Tests located in `/tests/unit`:
@@ -136,7 +136,7 @@ Tests located in `/tests/unit`:
 ### Integration Tests
 
 ```bash
-pnpm test:integration
+npm run test:integration
 ```
 
 Tests located in `/tests/integration`:
@@ -146,7 +146,7 @@ Tests located in `/tests/integration`:
 ### End-to-End Tests
 
 ```bash
-pnpm test:e2e
+npm run test:e2e
 ```
 
 Tests located in `/tests/e2e`:
@@ -162,7 +162,7 @@ Tests located in `/tests/e2e`:
 ### Run All Tests
 
 ```bash
-pnpm test
+npm test
 ```
 
 ## PWA Support

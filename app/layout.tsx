@@ -10,7 +10,6 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Habit Tracker',
   description: 'Track and build your daily habits',
-  generator: 'v0.app',
   manifest: '/manifest.json',
   icons: {
     icon: [
