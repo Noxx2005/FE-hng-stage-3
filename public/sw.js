@@ -38,6 +38,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip chrome-extension and other non-http schemes
+  const url = new URL(event.request.url);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    return;
+  }
+
   // Handle navigation requests
   if (event.request.mode === 'navigate') {
     event.respondWith(
