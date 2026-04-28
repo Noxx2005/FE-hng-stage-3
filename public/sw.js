@@ -44,12 +44,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle navigation requests
+  // Handle navigation requests - always fetch fresh from network
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.match('/').then((cached) => {
-        return cached || fetch(event.request).catch(() => {
-          return new Response('Offline', { status: 503 });
+      fetch(event.request).catch(() => {
+        // Only use cache as fallback for offline
+        return caches.match(event.request).then((cached) => {
+          return cached || new Response('Offline', { status: 503 });
         });
       })
     );

@@ -18,7 +18,7 @@ export default function Home() {
       // Use replace to avoid adding splash to history
       router.replace(destination);
       setChecked(true);
-    }, 300);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [router, checked]);
