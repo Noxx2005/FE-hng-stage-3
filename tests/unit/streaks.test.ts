@@ -1,0 +1,27 @@
+import { describe, it, expect } from 'vitest';
+import { calculateCurrentStreak } from '@/lib/streaks';
+
+describe('calculateCurrentStreak', () => {
+  it('returns 0 when completions is empty', () => {
+    expect(calculateCurrentStreak([], '2024-01-15')).toBe(0);
+  });
+
+  it('returns 0 when today is not completed', () => {
+    expect(calculateCurrentStreak(['2024-01-14', '2024-01-13'], '2024-01-15')).toBe(0);
+  });
+
+  it('returns the correct streak for consecutive completed days', () => {
+    const completions = ['2024-01-15', '2024-01-14', '2024-01-13'];
+    expect(calculateCurrentStreak(completions, '2024-01-15')).toBe(3);
+  });
+
+  it('ignores duplicate completion dates', () => {
+    const completions = ['2024-01-15', '2024-01-15', '2024-01-14', '2024-01-13'];
+    expect(calculateCurrentStreak(completions, '2024-01-15')).toBe(3);
+  });
+
+  it('breaks the streak when a calendar day is missing', () => {
+    const completions = ['2024-01-15', '2024-01-14', '2024-01-12'];
+    expect(calculateCurrentStreak(completions, '2024-01-15')).toBe(2);
+  });
+});
