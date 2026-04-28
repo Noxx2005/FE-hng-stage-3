@@ -30,10 +30,16 @@ export function getSession(): Session | null {
 
 export function setSession(session: Session | null): void {
   if (typeof window === 'undefined') return;
+  
   if (session === null) {
     localStorage.removeItem(SESSION_KEY);
+    // Clear cookie on client side
+    document.cookie = 'habit-tracker-session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
   } else {
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    // Set cookie to work with middleware (secure for production)
+    const cookieValue = encodeURIComponent(JSON.stringify(session));
+    document.cookie = `habit-tracker-session=${cookieValue}; path=/; max-age=86400;`;
   }
 }
 
@@ -52,7 +58,8 @@ export function signup(email: string, password: string): { success: boolean; err
   };
 
   saveUsers([...users, newUser]);
-  setSession({ userId: newUser.id, email: newUser.email });
+  const session = { userId: newUser.id, email: newUser.email };
+  setSession(session);
 
   return { success: true };
 }
@@ -65,7 +72,8 @@ export function login(email: string, password: string): { success: boolean; erro
     return { success: false, error: 'Invalid email or password' };
   }
 
-  setSession({ userId: user.id, email: user.email });
+  const session = { userId: user.id, email: user.email };
+  setSession(session);
   return { success: true };
 }
 

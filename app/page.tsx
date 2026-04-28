@@ -1,27 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SplashScreen from '@/components/shared/SplashScreen';
-import { getSession } from '@/lib/auth';
 
 export default function Home() {
   const router = useRouter();
-  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    if (checked) return;
-    
+    // Set a timeout to transition after showing splash screen
     const timer = setTimeout(() => {
-      const session = getSession();
-      const destination = session ? '/dashboard' : '/login';
-      // Use replace to avoid adding splash to history
-      router.replace(destination);
-      setChecked(true);
-    }, 1000);
+      // Middleware will handle the actual redirect based on session
+      router.push('/login');
+    }, 2000);
 
     return () => clearTimeout(timer);
-  }, [router, checked]);
+  }, [router]);
 
   return <SplashScreen />;
 }
