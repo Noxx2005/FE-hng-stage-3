@@ -124,7 +124,13 @@ test.describe('Habit Tracker app', () => {
     await page.getByTestId('habit-name-input').fill('Persistent Habit');
     await page.getByTestId('habit-save-button').click();
 
+    // Wait for habit to be saved and rendered
+    await expect(page.locator('text=Persistent Habit')).toBeVisible();
+    await page.waitForTimeout(1000);
+
     await page.reload();
+    await page.waitForURL('/dashboard', { timeout: 5000 });
+    await page.waitForTimeout(1000);
 
     await expect(page.locator('text=Persistent Habit')).toBeVisible();
   });
@@ -154,6 +160,9 @@ test.describe('Habit Tracker app', () => {
     await page.getByTestId('auth-signup-submit').click();
     await page.waitForURL('/dashboard');
 
+    // Wait for service worker to cache the page
+    await page.waitForTimeout(2000);
+
     // Go offline and reload
     await page.context().setOffline(true);
     await page.reload();
@@ -163,5 +172,8 @@ test.describe('Habit Tracker app', () => {
     const splashVisible = await page.getByTestId('splash-screen').isVisible().catch(() => false);
 
     expect(dashboardVisible || splashVisible).toBe(true);
+
+    // Go back online
+    await page.context().setOffline(false);
   });
 });

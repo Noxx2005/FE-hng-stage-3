@@ -25,7 +25,7 @@ describe('auth flow', () => {
 
   it('submits the login form and stores the active session', () => {
     signup('user@example.com', 'password123');
-    localStorage.clear(); // Clear session to test login
+    localStorage.removeItem('habit-tracker-session'); // Clear only session to test login
 
     const result = login('user@example.com', 'password123');
     expect(result.success).toBe(true);

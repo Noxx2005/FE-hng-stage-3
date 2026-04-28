@@ -32,9 +32,8 @@ export default function SignupForm() {
       router.push('/dashboard');
     } else {
       setError(result.error || 'Signup failed');
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (

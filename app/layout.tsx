@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -39,21 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-blue-50">
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js').catch(() => {});
-                });
-              }
-            `,
-          }}
-        />
-      </head>
       <body className="font-sans antialiased">
         {children}
+        <ServiceWorkerRegistration />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

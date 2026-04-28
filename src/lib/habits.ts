@@ -10,8 +10,11 @@ export function toggleHabitCompletion(habit: Habit, date: string): Habit {
     completions.splice(index, 1);
   }
 
+  // Remove duplicates
+  const uniqueCompletions = Array.from(new Set(completions));
+
   return {
     ...habit,
-    completions,
+    completions: uniqueCompletions,
   };
 }

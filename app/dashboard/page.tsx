@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getSession, logout } from '@/lib/auth';
-import { getHabits, saveHabits } from '@/lib/habit-storage';
+import { getHabits } from '@/lib/habit-storage';
 import { Habit } from '@/types/habit';
 import HabitCard from '@/components/habits/HabitCard';
 import HabitForm from '@/components/habits/HabitForm';
 import { Button } from '@/components/ui/button';
-import { Empty } from '@/components/ui/empty';
+import { Empty, EmptyContent, EmptyMedia, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 
 export default function DashboardPage() {
   const [session, setSession] = useState<{ userId: string; email: string } | null>(null);
@@ -44,7 +44,7 @@ export default function DashboardPage() {
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    window.location.href = '/login';
   };
 
   if (isLoading) {
@@ -80,12 +80,13 @@ export default function DashboardPage() {
 
         {/* Habits List */}
         {habits.length === 0 ? (
-          <Empty
-            data-testid="empty-state"
-            icon="✨"
-            title="No habits yet"
-            description="Create your first habit to get started"
-          />
+          <Empty data-testid="empty-state">
+            <EmptyContent>
+              <EmptyMedia>✨</EmptyMedia>
+              <EmptyTitle>No habits yet</EmptyTitle>
+              <EmptyDescription>Create your first habit to get started</EmptyDescription>
+            </EmptyContent>
+          </Empty>
         ) : (
           <div className="grid gap-4">
             {habits.map((habit) => (
