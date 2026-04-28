@@ -1,23 +1,27 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import SplashScreen from '@/components/shared/SplashScreen';
 import { getSession } from '@/lib/auth';
 
 export default function Home() {
+  const router = useRouter();
+  const [checked, setChecked] = useState(false);
+
   useEffect(() => {
-    // Wait for hydration to complete
+    if (checked) return;
+    
     const timer = setTimeout(() => {
       const session = getSession();
-      console.log('Session check:', session);
       const destination = session ? '/dashboard' : '/login';
-      console.log('Redirecting to:', destination);
-      // Use window.location for reliable navigation
-      window.location.href = destination;
-    }, 500);
+      // Use replace to avoid adding splash to history
+      router.replace(destination);
+      setChecked(true);
+    }, 300);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [router, checked]);
 
   return <SplashScreen />;
 }
